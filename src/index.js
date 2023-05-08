@@ -1,4 +1,4 @@
-import { TomTomConfig } from "@anw/maps-sdk-js/core";
+import { TomTomConfig, bboxFromGeoJSON } from "@anw/maps-sdk-js/core";
 import {
   TomTomMap,
   TrafficModule,
@@ -125,8 +125,13 @@ function createPopupContent(title, onAddClick) {
 
 async function calculateRouteIfNeeded() {
   if (waypoints.length > 1) {
+    const routes = await calculateRoute({ geoInputs: waypoints });
+    routingModule.showRoutes(routes);
+
+    const bbox = bboxFromGeoJSON(routes);
+    tomTomMap.mapLibreMap.fitBounds(bbox);
+
     resetButton.disabled = false;
-    routingModule.showRoutes(await calculateRoute({ geoInputs: waypoints }));
   }
 }
 
