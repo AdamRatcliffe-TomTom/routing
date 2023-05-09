@@ -129,7 +129,9 @@ async function calculateRouteIfNeeded() {
     routingModule.showRoutes(routes);
 
     const bbox = bboxFromGeoJSON(routes);
-    tomTomMap.mapLibreMap.fitBounds(bbox);
+    tomTomMap.mapLibreMap.fitBounds(bbox, {
+      padding: 64
+    });
 
     resetButton.disabled = false;
   }
